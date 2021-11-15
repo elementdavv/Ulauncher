@@ -1,8 +1,8 @@
 Extension Migration
 ===================
 
-Migrate from API v1 to v2.0.0
------------------------------
+Migrate from API v1 to v2
+-------------------------
 
 API version 2 was introduced along with Ulauncher v5 after migrating from Python 2 to 3.
 
@@ -12,16 +12,16 @@ API version 2 was introduced along with Ulauncher v5 after migrating from Python
 
 1. Remove ``manifest_version`` from ``manifest.json``. It's no longer needed
 2. In the manifest file rename ``api_version`` to ``required_api_version``
-3. Set its value to ``^2.0.0``
-4. ``required_api_version`` should follow `NPM Semver <https://docs.npmjs.com/misc/semver>`_ format. In most of the cases you would want to specify a string like ``^x.y.z`` where ``x.y.z`` is the current version of extension API not Ulauncher app.
+3. Set its value to ``2``.
+4. ``required_api_version`` is the minimum version of extension API (not the Ulauncher app version).
 5. Migrate your extension to Python 3 manually or by using `2to3 tool <https://docs.python.org/2/library/2to3.html>`_
 6. Create a file called ``versions.json`` in the **root** directory of **master** branch using the following content as a template:
 
   ::
 
     [
-      { "required_api_version": "^1.0.0", "commit": "<branch name with the pre-migration code>" },
-      { "required_api_version": "^2.0.0", "commit": "<branch name with python3 code>" }
+      { "required_api_version": "1", "commit": "<branch name with the pre-migration code>" },
+      { "required_api_version": "2", "commit": "<branch name with python3 code>" }
     ]
 
   For more details about ``version.json``, see `tutorial <tutorial.html#versions-json>`__.
@@ -31,11 +31,13 @@ API version 2 was introduced along with Ulauncher v5 after migrating from Python
   ::
 
     [
-      { "required_api_version": "^1.0.0", "commit": "python2" },
-      { "required_api_version": "^2.0.0", "commit": "master" }
+      { "required_api_version": "1", "commit": "python2" },
+      { "required_api_version": "2", "commit": "master" }
     ]
 
 ----
 
 .. NOTE::
+  The API version in Ulauncher v5 used to be full semver numbers in three parts, and you could specify them with all valid semver constraints. This was needlessly complicated, so we simplified it, while keeping it backward compatible. Now you can specify the version as for example just `"2"` or `"2.0"` and it will be compatible with Ulauncher versions if the major version (first part `2`) is the same, and the minor (second part `0`) is the same or higher.
+
   Please take `a short survey <https://goo.gl/forms/wcIRCTjQXnO0M8Lw2>`_ to help us build greater API and documentation

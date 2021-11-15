@@ -31,22 +31,27 @@ The file contains a list with supported versions of Ulauncher API. ``commit`` fi
 
 ``versions.json`` must be checked in to the **root** dir of **master** branch.
 
-``required_api_version`` must contain a specific version or a range of versions defined using `NPM Semver <https://docs.npmjs.com/misc/semver>`_ format.
+``required_api_version`` specifies the minimum supported API version. You can find the current version number on the About page of Ulauncher preferences or the log output if you run `ulauncher -v` from a terminal.
+
+Your extension will load in Ulauncher if the Ulauncher API version is the same or newer than the version you specify. This applies when the number before the dot remains the same. Otherwise it's a non-backward compatible API release where developers have to make updates to their code, but this will not happen very often. It only happened once so far, and that was when we switched from Python 2 to Python 3.
+
+Previously you could specify the version with semver. This was needlessly complicated, but for compatibility both ways to specify the API versions are compatible with any version of Ulauncher since version 5.
+
 
 Let's take this example::
 
 
   [
-    {"required_api_version": "^1.0.0", "commit": "release-for-api-v1"},
-    {"required_api_version": "^2.0.0", "commit": "release-for-api-v2"},
-    {"required_api_version": "^2.3.1", "commit": "master"}
+    {"required_api_version": "1", "commit": "release-for-api-v1"},
+    {"required_api_version": "2", "commit": "release-for-api-v2"},
+    {"required_api_version": "2.3", "commit": "master"}
   ]
 
 ``release-for-api-v1`` is a branch name (or may be a git tag in this case too). You can choose branch/tag names whatever you like.
 
-``^1.0.0`` means that the Ulauncher will install extension from branch ``release-for-api-v1`` if Ulauncher Extension API >= 1.0.0 and < 2.0.0
+``1`` means that the Ulauncher will install extension from branch ``release-for-api-v1`` if Ulauncher's API version is 1.0 or higher, but lower than 2.0
 
-If for example the current API version is ``2.5.0``, which matches both ``^2.0.0`` and ``^2.3.1`` requirements, then Ulauncher will install extension from ``master`` branch because it chooses the last matched item.
+If for example Ulaunchers API version is ``2.5``, this satisfies both the ``2`` and ``2.3`` versions as specified above. In this case installing that extension checks out the branch specified last.
 
 You can find the current version on the About page of Ulauncher preferences.
 
@@ -68,7 +73,7 @@ manifest.json
 Create :file:`manifest.json` using the following template::
 
   {
-    "required_api_version": "^2.0.0",
+    "required_api_version": "2",
     "name": "Demo extension",
     "description": "Extension Description",
     "developer_name": "John Doe",
@@ -87,7 +92,7 @@ Create :file:`manifest.json` using the following template::
     ]
   }
 
-* ``required_api_version`` - a version of Ulauncher Extension API that the extension requires. It should follow `NPM Semver <https://docs.npmjs.com/misc/semver>`_ format. In most of the cases you would want to specify a string like ``^x.y.z`` where ``x.y.z`` is the current version of extension API (not Ulauncher). You can find the current version number on the About page of Ulauncher preferences.
+* ``required_api_version`` - the minimum version of the Ulauncher Extension API (not the main app version) that the extension requires. See above for more information.
 * ``name``, ``description``, ``developer_name`` can be anything you like but not an empty string
 * ``icon`` - relative path to an extension icon
 * ``options`` - dictionary of optional parameters. See available options below
