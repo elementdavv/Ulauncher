@@ -1,6 +1,6 @@
 import re
 
-api_version = '2.0'
+api_version = '2.1'
 
 
 # Very simplistic version compatibility checking just for Ulaunchers simple needs. In order to
