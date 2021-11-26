@@ -13,6 +13,10 @@ Ulauncher is a fast application launcher for Linux. It's is written in Python, u
 For more info or download links see [ulauncher.io](https://ulauncher.io)
 
 
+### Enhancement
+Add a icon field in extension definitions for system action.
+
+
 ### Run Ulauncher on startup
 
 If your distribution uses [Systemd](https://www.freedesktop.org/wiki/Software/systemd/) and the packages includes [ulauncher.service](ulauncher.service), then you can run `ulauncher` on startup by running:
@@ -66,9 +70,9 @@ You need the the following:
     gir1.2-{gtk-3.0,keybinder-3.0,webkit2-4.0,glib-2.0,gdkpixbuf-2.0,notify-0.7,ayatanaappindicator3-0.1} \
     python3-{all,gi,distutils-extra,xdg,dbus,pyinotify,levenshtein,websocket}
   ```
-  
+
   Enable docker and set permissions
-  
+
   ```
   sudo systemctl enable --now docker
   sudo usermod -aG docker $USER
